@@ -1,4 +1,4 @@
 variable "bucket_name" {
-  description = "The name of the S3 bucket"
+  description = "Globally-unique S3 bucket name"
   type        = string
 }
