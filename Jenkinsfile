@@ -2,20 +2,22 @@ pipeline {
     agent any
 
     environment {
-        BUCKET_NAME = "devops-static-site-bhanu"
+        AWS_ACCESS_KEY_ID     = credentials('aws-access-key')        // Reference Jenkins credentials ID
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
+        AWS_DEFAULT_REGION    = "us-east-2"
     }
 
     stages {
-        stage('Clone Repo') {
+        stage('Check Terraform') {
             steps {
-                git 'https://github.com/your-username/devops-static-site.git'
+                bat 'terraform -v'
             }
         }
 
         stage('Terraform Init') {
             steps {
                 dir('terraform') {
-                    sh 'terraform init'
+                    bat 'terraform init'
                 }
             }
         }
@@ -23,15 +25,9 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 dir('terraform') {
-                    sh "terraform apply -auto-approve -var bucket_name=${BUCKET_NAME}"
+                    bat 'terraform apply -auto-approve -var "bucket_name=devops-static-site-bhanu-20250620"'
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo "Deployment completed!"
         }
     }
 }
