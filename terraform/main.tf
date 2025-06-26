@@ -7,11 +7,6 @@ provider "aws" {
   region = "us-east-2"           # change if you use another region
 }
 
-# --- Variables ---------------------------------
-variable "bucket_name" {
-  description = "Globally-unique S3 bucket name for the static site"
-  type        = string
-}
 
 # --- S3 Bucket ---------------------------------
 resource "aws_s3_bucket" "static_site" {
